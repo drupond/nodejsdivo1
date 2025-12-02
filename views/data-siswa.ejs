@@ -1,0 +1,79 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+    <title>Halaman Data Siswa</title>
+  </head>
+  <body>
+    <div class="container mt-3">
+      <div class="row justify-content-center">
+        <div class="col-12">
+          <h2>Daftar Data Siswa</h2>
+
+          <a href="/data-siswa/add" class="btn btn-primary mb-3">Tambah Data Siswa</a>
+
+          <% if (msg.length !== 0) { %>
+           <div class="alert alert-success mt-3" role="alert"><%= msg %></div>
+          <% } %>
+
+          <table class="table table-striped table-responsive">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nama</th>
+                <th scope="col">JK</th>
+                <th scope="col">NISN</th>
+                <th scope="col">NIK</th>
+                <th scope="col">No. KK</th>
+                <th scope="col">Tingkat Kelas Saat Ini</th>
+                <th scope="col">Rombel</th>
+                <th scope="col">Tanggal Masuk</th>
+                <th scope="col">Terdaftar Sebagai</th>
+                <th scope="col">Tempat Lahir</th>
+                <th scope="col">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (siswas.length === 0) { %>
+              <tr>
+                <td colspan="12" class="text-center">
+                  <div class="alert alert-danger fw-bold" role="alert">
+                    Data Siswa kosong!
+                  </div>
+                </td>
+              </tr>
+              <% } %> <% siswas.forEach((siswa, i) => { i++ %>
+              <tr>
+                <th scope="row"><%= i++ %></th>
+                <td><%= siswa.nama %></td>
+                <td><%= siswa.jk %></td>
+                <td><%= siswa.nisn %></td>
+                <td><%= siswa.nik %></td>
+                <td><%= siswa.nokk %></td>
+                <td><%= siswa.tingkat %></td>
+                <td><%= siswa.rombel %></td>
+                <td><%= new Date(siswa.tgl_masuk).toLocaleDateString('id-ID', { 
+                  weekday: 'long', 
+                  year: 'numeric', 
+                  month: 'long', 
+                  day: 'numeric' 
+                }) %></td>                
+                <td><%= siswa.terdaftar %></td>
+                <td><%= siswa.ttl %></td>
+                <td>
+                  <a href="/data-siswa/edit/<%= siswa.nisn %>" class="btn btn-info badge">Edit</a>
+                  <form action="/data-siswa?_method=DELETE" method="POST" class="d-inline">
+                    <input type="hidden" name="nisn" value="<%= siswa.nisn %>">
+                    <button type="submit" class="btn btn-danger badge" onclick="return confirm('Apakah Anda yakin ingin menghapus data siswa ini?');">Delete</button>    
+                  </form>           
+                </td>
+              </tr>
+            <% }) %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
